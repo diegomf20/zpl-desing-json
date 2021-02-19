@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZPL-DESING-JSON</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="200" height="300" style="border:1px solid #d3d3d3;">
+        
+    </canvas>
+
+    <script src="zpl.js"></script>
+    <script src="desing.js"></script>
+
+    <script>
+        var jsonZPL=[
+            {
+                "type": "text",
+                "content": "{cod_lab}",
+                "x": 10,
+                "y": 0,
+                "size": 12,
+                "rotate": 90
+            },
+            {
+                "type": "box",
+                "x": 50,
+                "y": 50,
+                "w": 50,
+                "h": 100,
+                "border": 1
+            },
+            {
+                "type": "line",
+                "x": 100,
+                "y": 100,
+                "w": 100,
+                "rotate": 90,
+                "border": 1
+            },
+            {
+                "type": "barcode",
+                "content": "77382978",
+                "x": 150,
+                "y": 150,
+                "h": 60,
+                // 1,2,3 scale
+                "scale": 2,
+                "rotate": 90
+            }
+        ];
+        console.log(compilerZpl(jsonZPL));
+        writeCanvasZpl('myCanvas',jsonZPL)
+
+    </script>
+</body>
+</html>

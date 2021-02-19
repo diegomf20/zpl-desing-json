@@ -1,0 +1,36 @@
+[
+    {
+        "type": "text",
+        "content": "Hola Mundo",
+        // min 12
+        "font_size": 12,
+        "x": 10,
+        "y": 5,
+        "rotate": 0
+    },
+    {
+        "type": "box",
+        "x": 50,
+        "y": 50,
+        "w": 0,
+        "h": 0,
+        //b: borde de 1 a MAS
+        "border": 1
+    },
+    {
+        "type": "line",
+        "x": 50,
+        "y": 50,
+        "w": 100,
+        "rotate": 90,
+        "border": 1
+    },
+    {
+        "type": "barcode",
+        "content": "77382978",
+        "x": 150,
+        "y": 150,
+        "h": 60,
+        "rotate": 90
+    }
+]
