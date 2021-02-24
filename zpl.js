@@ -20,9 +20,7 @@ function compilerZpl(jsonZPL) {
                 break;
         }
     }
-    return `^XA
-                ${ preCompiler }
-            ^XZ`;
+    return `^XA\n${ preCompiler }^XZ`;
 }
 
 function zplText(objZPL) {
@@ -53,9 +51,7 @@ function zplText(objZPL) {
 
     var content=objZPL.content;
 
-    return `^FO${x},${y}
-            ^AD${ angule },${18*(size-11)},${10*(size-11)}
-            ^FD${content}^FS`;
+    return `^FO${x},${y}\n^AD${ angule },${size}\n^FD${content}^FS\n`;
 }
 
 function zplBox(objZPL) {
@@ -64,22 +60,18 @@ function zplBox(objZPL) {
     var w=objZPL.w;
     var h=objZPL.h;
     var border=objZPL.border;
-
-    return `^FO${x},${y}
-            ^GB${w},${h},${border}
-            ^FS`;
+    
+    return `^FO${x},${y}\n^GB${w},${h},${border}^FS\n`;
 }
 
 function zplLine(objZPL) {
     var x=objZPL.x;
     var y=objZPL.y;
-    var w=objZPL.rotate==90 ? 1 : objZPL.w;
-    var h=objZPL.rotate==90 ? objZPL.w : 1;
     var border=objZPL.border;
+    var w=objZPL.rotate==90 ? 0 : objZPL.w;
+    var h=objZPL.rotate==90 ? objZPL.w : 0;
 
-    return `^FO${x},${y}
-            ^GB${w},${h},${border}
-            ^FS`;
+    return `^FO${x},${y}\n^GB${w},${h},${border}^FS\n`;
 }
 function zplBarCode(objZPL) {
     var content=objZPL.content;
@@ -108,7 +100,5 @@ function zplBarCode(objZPL) {
             break;
     }
 
-    return `^FO${x},${y}
-            ^BY${scale},2,${h}
-            ^BC${ angule },,,,,A^FD${content}^FS`;
+    return `^FO${x},${y}\n^BY${scale},2,${h}\n^BC${ angule },,,,,A^FD${content}^FS\n`;
 }

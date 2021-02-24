@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZPL-DESING-JSON</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app" class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <h4>Paleta</h4>
+                <button @click="addText()" class="btn btn-info">Text</button>
+                <button @click="addBox()" class="btn btn-info">Box</button>
+                <button @click="addLine()" class="btn btn-info">Line</button>
+                <button @click="addBarcode()" class="btn btn-info">Barcode</button>
+                <hr>
+                <h4>Contenido</h4>
+                <ul>
+                    <li v-for="(json,i) in jsonZPL">N{{ i+1 }} {{ json.type }} 
+                        <button @click="edit(i)" class="btn btn-sm btn-primary">Editar</button>
+                        <button @click="del(i)" class="btn btn-sm btn-danger">ELiminar</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <div>
+                    <canvas id="myCanvas" width="400" height="300" style="border:1px solid #d3d3d3;"></canvas>
+                    <canvas id="barcode" hidden></canvas>
+                </div>
+                <div>
+                    <textarea name="" id="" cols="30" rows="10">{{ zpl}}</textarea>
+                </div>
+            </div> 
+            <div v-if="index_select!=-1" class="col-sm-3">
+                <div v-if="jsonZPL[index_select].type=='text'">
+                    <h4>Editar Texto</h4>
+                    <label for="">Contenido:</label>
+                    <input v-model="jsonZPL[index_select].content" type="text" class="form-control">
+                    <label for="">X:</label>
+                    <input v-model.number="jsonZPL[index_select].x"  type="number" class="form-control">
+                    <label for="">Y:</label>
+                    <input v-model.number="jsonZPL[index_select].y" type="number" class="form-control">
+                    <label for="">Size:</label>
+                    <input v-model.number="jsonZPL[index_select].size"  type="number" class="form-control">
+                    <label for="">Rotate:</label>
+                    <input v-model.number="jsonZPL[index_select].rotate" type="number" class="form-control">
+                    <button id="update">Update</button>
+                </div>
+                <div v-if="jsonZPL[index_select].type=='box'">
+                    <h4>Editar Texto</h4>
+                    <label for="">X:</label>
+                    <input v-model.number="jsonZPL[index_select].x"  type="number" class="form-control">
+                    <label for="">Y:</label>
+                    <input v-model.number="jsonZPL[index_select].y" type="number" class="form-control">
+                    <label for="">border:</label>
+                    <input v-model.number="jsonZPL[index_select].border"  type="number" class="form-control">
+                    <label for="">W:</label>
+                    <input v-model.number="jsonZPL[index_select].w" type="number" class="form-control">
+                    <label for="">H:</label>
+                    <input v-model.number="jsonZPL[index_select].h" type="number" class="form-control">
+                    <button id="update">Update</button>
+                </div>
+                <div v-if="jsonZPL[index_select].type=='line'">
+                    <h4>Editar Texto</h4>
+                    <label for="">X:</label>
+                    <input v-model.number="jsonZPL[index_select].x"  type="number" class="form-control">
+                    <label for="">Y:</label>
+                    <input v-model.number="jsonZPL[index_select].y" type="number" class="form-control">
+                    <label for="">border:</label>
+                    <input v-model.number="jsonZPL[index_select].border"  type="number" class="form-control">
+                    <label for="">W:</label>
+                    <input v-model.number="jsonZPL[index_select].w" type="number" class="form-control">
+                    <label for="">Rotate:</label>
+                    <input v-model.number="jsonZPL[index_select].rotate" type="number" class="form-control">
+                    <button id="update">Update</button>
+                </div>
+                <div v-if="jsonZPL[index_select].type=='barcode'">
+                    <h4>Editar Texto</h4>
+                    <label for="">Contenido:</label>
+                    <input v-model="jsonZPL[index_select].content" type="text" class="form-control">
+                    <label for="">X:</label>
+                    <input v-model.number="jsonZPL[index_select].x"  type="number" class="form-control">
+                    <label for="">Y:</label>
+                    <input v-model.number="jsonZPL[index_select].y" type="number" class="form-control">
+                    <label for="">H:</label>
+                    <input v-model.number="jsonZPL[index_select].h" type="number" class="form-control">
+                    <label for="">Scale:</label>
+                    <select name="" id="" class="form-control" v-model.number="jsonZPL[index_select].scale">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                    <!-- <input v-model.number="jsonZPL[index_select].scale" type="number" class="form-control"> -->
+                    <label for="">Rotate:</label>
+                    <input v-model.number="jsonZPL[index_select].rotate" type="number" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+    <script src="zpl.js"></script>
+    <script src="desing.js"></script>
+    <script src="vue.panel.js"></script>
+</body>
+</html>
